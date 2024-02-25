@@ -1,5 +1,5 @@
 import {dirFake} from "../helpers/fakeDate.js";
-import SingleFile from "./SingleFile.jsx";
+import SingleFile from "./fileSystem/SingleFile.jsx";
 
 const SideBar = () => {
 

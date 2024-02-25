@@ -1,7 +1,8 @@
 
 import {ContextStore} from './store/ContextApi.jsx';
-import {useContext, useState} from "react";
+import { useState} from "react";
 
+// eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
     const [open, setOpen] = useState("");
 
