@@ -1,6 +1,8 @@
 import {dirFake} from "../helpers/fakeDate.js";
+import SingleFile from "./SingleFile.jsx";
 
 const SideBar = () => {
+
     return (
         <div className="h-[670px] container-x pr-2">
             <div className="overflow-x-auto">
@@ -16,16 +18,13 @@ const SideBar = () => {
                     </thead>
                     <tbody>
                     {dirFake.map((item,index)=>(
-                        <tr key={index} className="hover">
-                            <th>{index}</th>
-                            <td>{item.filename}</td>
-                            <td>{item.datetime}</td>
-                            <td>{item.volume}</td>
-                            <div onClick={()=>{ navigator.clipboard.writeText("")}} className="relative cursor-pointer ">
-                                <div className="absolute top-1 left-1 w-[15px] h-[15px] rounded border-gray-50 border bg-gray-400"></div>
-                                <div className=" w-[15px] h-[15px] rounded border-gray-50 border"></div>
-                            </div>
-                        </tr>
+                        <SingleFile
+                            key={index}
+                            index={index}
+                            filename={item.filename}
+                            datetime={item.datetime}
+                            volume={item.volume}
+                       />
                     ))}
                     </tbody>
                 </table>

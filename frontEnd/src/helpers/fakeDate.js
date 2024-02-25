@@ -135,3 +135,35 @@ export const dirFake=[
         volume:"237/kb"
     },
 ]
+
+export const modalHtml=[
+    {
+        id:"add_file",
+        nameModal: "Add file",
+        inputModal: "lorem is  add file",
+        discretion: "lorem is  add file",
+        btn: "red"
+    },
+    {
+        id:"edit_file",
+        nameModal: "Edit file",
+        inputModal: "lorem is  add file",
+        discretion: "lorem is  add file",
+        btn: "red"
+    },
+    {
+        id:"info_file",
+        nameModal: "Info file",
+        inputModal: "lorem is  add file",
+        discretion: "lorem is  add file",
+        btn: "red"
+    },
+    {
+        id:"delete_file",
+        nameModal: "Delete file",
+        inputModal: "lorem is  add file",
+        discretion: "lorem is  add file",
+        btn: "red"
+    }
+];
+
