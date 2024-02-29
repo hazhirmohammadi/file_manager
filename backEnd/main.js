@@ -15,12 +15,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.post('/api/data', (req, res) => {
     const requestData = req.body;
-    const file = helpers.namePath("/rootTest", `${requestData.filename}.txt`)
-    console.log(file)
-   File.createFile(file, "hi hazhir");
-
-
-  //  res.json({message: 'Hello from the server!  😀'});
+    const file = helpers.namePath("/rootTest", `${requestData.fileName}`,`${requestData.fileType}`)
+        File.createFile(file, "hi hazhir");
+    //  res.json({message: 'Hello from the server!  😀'});
 });
 
 
