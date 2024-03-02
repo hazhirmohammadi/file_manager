@@ -1,32 +1,32 @@
-import {useRef, useState} from "react";
+import {useContext, useRef, useState} from "react";
 import axios from "axios";
 import helper from "../../helpers/helper.js";
+import {ContextStore} from "../../store/ContextApi.jsx";
+import PathDir from "./PathDir.jsx";
 
 const AddFile = () => {
-
+    //Context APi
 
     const fileNameRef = useRef(null);
     const fileTypeRef = useRef(null);
 
 //validation
     const [validateStatus, setValidateStatus] = useState({});
-    const [data, setData] = useState("");
+    const [data, setData] = useState([]);
     const [myFileData, setFileData] = useState({});
 
 
     //send data file from server
     const fetchData = async () => {
         try {
-
             const response = await axios.post('http://localhost:3001/api/data', myFileData);
             const result = response.data;
-            // console.log(result);
-            setData(result);
+            console.log(result)
+            setData(result.dirArray);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
-
 
     //handheld file data
     const handleInputChange = () => {
@@ -34,7 +34,6 @@ const AddFile = () => {
         //get values
         const fileNameValue = fileNameRef.current.value;
         const fileTypeValue = fileTypeRef.current.value;
-
 
         //validation File Name
         const fileNameRegex = /^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/;
@@ -101,6 +100,9 @@ const AddFile = () => {
                 className="btn hover:bg-green-700 hover:text-white"
             >Create
             </button>
+            <div>
+                <PathDir/>
+            </div>
         </div>
     )
 }
