@@ -1,5 +1,6 @@
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {ContextStore} from "../../store/ContextApi.jsx";
+import axios from "axios";
 
 const PathDir = () => {
     /*===get Directory list ====*/
@@ -10,11 +11,23 @@ const PathDir = () => {
 
     useEffect(() => {
         console.log(allDirectory)
-    }, [setSpanValue, spanValue,allDirectory,setAllDirectory]);
+    }, [setSpanValue, spanValue, allDirectory, setAllDirectory]);
 
+    const findDir = {dirName: spanValue}
+    const sendDirectory = async () => {
+        try {
+            console.log(44)
+            const response = await axios.post('http://localhost:3001/api/data', findDir);
+            const result = response.data;
+            console.log(result)
+            // setData(result.dirArray);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
 
     const handleClick = (dir) => {
-        if (!allDirectory.find(value => value===dir)) {
+        if (!allDirectory.find(value => value === dir)) {
             setAllDirectory(prevState => [...prevState, dir]);
         }
         setSpanValue(dir)
@@ -36,6 +49,7 @@ const PathDir = () => {
                     <span key={index}
                           onClick={() => {
                               handleClick(dir);
+                              sendDirectory();
                           }}
                           className="p-2 bg-orange-500 text-black rounded text-xs cursor-pointer hover:bg-orange-700"
                     >
