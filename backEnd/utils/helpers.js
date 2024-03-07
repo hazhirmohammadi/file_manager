@@ -3,7 +3,8 @@ const os = require("os");
 const fs = require("fs");
 
 class Helpers {
-    constructor() {
+    constructor(findDir) {
+        this.findDir = findDir;
     }
 
     static namePath(path, name, type) {
@@ -11,22 +12,24 @@ class Helpers {
         return rootDir + path + "/" + name + type;
     }
 
-     rootFiles() {
+    rootFiles() {
         try {
-            //find main root system
+            const findDir = this.findDir ? this.findDir : "Desktop"
+
+            //read home
             const homeDirectory = os.homedir();
+            const files = fs.readdirSync(homeDirectory)
 
-            const files =  fs.readdirSync(homeDirectory)
+            //read dynamic files
+            const findPath = homeDirectory + "/" + `${findDir}`
+            const FileDynamic = fs.readdirSync(findPath)
 
-            const findPath= homeDirectory+"/"+ "Desktop";
-            const ss= fs.readdirSync(findPath)
-
-            console.log(`desktop Files:`,ss)
             //filter hidden file
-            const nonHiddenFiles = files.filter(file => !file.startsWith('.'));
+            const nonHiddenFiles = files.filter(file => !file.startsWith('.'));//problem ****
 
-           //return system files list
-            return nonHiddenFiles;
+            //return system files list
+            return FileDynamic ? FileDynamic : nonHiddenFiles;
+
         } catch (err) {
             console.error('Error reading home directory:', err);
             return [];
