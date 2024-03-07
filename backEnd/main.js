@@ -24,21 +24,43 @@ app.post('/api/data', (req, res) => {
     const requestData = req.body;
 
     const file = Helpers.namePath("/rootTest", `${requestData.fileName}`, `${requestData.fileType}`)
-     function example() {
-        const helpers = new Helpers();
-        const files =  helpers.rootFiles();
-       return  console.log('Files:', files);
-    }
 
-    console.log(11)
-    example()
-    console.log(12)
+    function example() {
+        const helpers = new Helpers();
+        return helpers.rootFiles();
+    }
+    console.log(211)
+    const dirArray = example();
+    // console.log(`😀`, dirArray)
+    res.json({dirArray: dirArray})
+
 
     if (!file)
+
+        //create file here
         File.createFile(file, "hi hazhir");
     //  res.json({message: 'Hello from the server!  😀'});
 });
 
+app.post('/api/dirNames', (req, res) => {
+
+
+    const requestData = req.body;
+    console.log(`Main JS => ${requestData.dirName}`)
+    function example() {
+        const helpers = new Helpers(requestData.dirName);
+        return helpers.rootFiles();
+    }
+
+    console.log("<<<<>>>>")
+   setTimeout(()=>{
+       const dirArray = example();
+       res.json({dirArray: dirArray})
+       console.log(`😀`, dirArray)
+   },1000)
+
+
+})
 
 app.listen(PORT, () => {
     console.log(`😀Server is running on http://localhost:${PORT}`);
