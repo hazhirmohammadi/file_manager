@@ -9,7 +9,7 @@ const user = {
   id: "1",
   name: "Uohn Nason",
   email: "john.mason@example.com",
-  avatar: "https://i.pravatar.cc/200?u=iu",
+  avatar: "https://i.pravatar.cc/ 200?u=iu",
 };
 const Header = () => {
 
