@@ -3,17 +3,22 @@ import React from "react";
 import { Status } from "@/components/ui/status";
 import { PiPlugsConnectedFill } from "react-icons/pi";
 import { Badge, Button } from "@chakra-ui/react";
-
+import useDirectoryStore from "@/Store/DirectoryStore";
+//success
 const Sidebar = () => {
+  const { color } = useDirectoryStore();
+
   return (
     <div className="text-black flex flex-col  w-full p-2">
       <div className="w-full border border-gray-200 rounded-md p-1">
         <div className="flex-row  flex items-center gap-2">
-          <p className="font-semibold text-sm flex flex-row items-center gap-2">
+          <div className="font-semibold text-sm flex flex-row items-center gap-2">
             <PiPlugsConnectedFill />
             Connect
-          </p>
-          <Status value="success" />
+          </div>
+          <Status
+            value={color}
+          />
         </div>
       </div>
 

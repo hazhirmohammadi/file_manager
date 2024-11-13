@@ -33,10 +33,10 @@ const Directory = () => {
           </Table.Header>
           <Table.Body>
             {items.map((item) => (
-              <Table.Row key={item.id} onClick={() => {
+              <Table.Row key={Math.random()} onClick={() => {
                 console.log(item.id);
               }}
-              className="hover:bg-neutral-100 cursor-pointer hover:text-blue-500"
+                         className="hover:bg-neutral-100 cursor-pointer hover:text-blue-500"
               >
 
                 <Table.Cell className="flex flex-row gap-2">  <GoFileDirectoryFill />{item.name}</Table.Cell>

@@ -14,8 +14,8 @@ const Breadcrumb = <T extends string>({ path }: BreadcrumbProps<T>) =>{
       <GoRelFilePath className="text-green-500" />
       <div className="text-black">
         <BreadcrumbRoot separator="/" separatorGap="4" className="">
-          {path?.map((link, index) => (
-            <BreadcrumbLink key={index} href="#">{link}</BreadcrumbLink>
+          {path?.map((link) => (
+            <BreadcrumbLink key={Math.random()} href="#">{link}</BreadcrumbLink>
           ))}
         </BreadcrumbRoot>
       </div>
