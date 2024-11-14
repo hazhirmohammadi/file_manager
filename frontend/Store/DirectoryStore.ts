@@ -6,7 +6,6 @@ type StatusValue ="success" | "error";
   setColor: (newColor: string) => void;
 }
 
-// Create the Zustand store
 const useDirectoryStore = create<DirectoryStore>((set) => ({
   color: "error" ,
   setColor: (newColor: string) => set({ color: newColor }),
