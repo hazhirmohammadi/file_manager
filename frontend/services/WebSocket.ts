@@ -7,25 +7,22 @@ class WebSocketService {
   }
 
   public connect(
-    onOpen: () => void,
-    onClose: () => void,
-    onError: (error: Event) => void,
+    onOpen?: () => void,
+    onClose?: () => void,
+    onError?: (error: Event) => void,
   ): void {
     this.ws = new WebSocket(this.url);
 
     this.ws.onopen = () => {
-      // console.log("WebSocket connected");
-      onOpen();
+      if (onOpen) onOpen();
     };
 
     this.ws.onerror = (error) => {
-      // console.error("WebSocket error:", error);
-      onError(error);
+      if (onError) onError(error);
     };
 
     this.ws.onclose = () => {
-      console.log("WebSocket closed");
-      onClose();
+      if (onClose) onClose();
     };
   }
 

@@ -1,5 +1,5 @@
 "use client";
-import React, {  useState } from "react";
+import React from "react";
 import { Table, Theme } from "@chakra-ui/react";
 import { GoFileDirectoryFill } from "react-icons/go";
 import ContextMenu from "@/components/common/ContextMenu";
@@ -50,7 +50,7 @@ const Directory = () => {
           <Table.Body>
             {items.map((item) => (
               <Table.Row
-                key={Math.random()}
+                key={item.id}
                 onClick={() => {
 
                 }}

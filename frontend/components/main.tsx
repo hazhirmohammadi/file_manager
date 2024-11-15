@@ -5,6 +5,7 @@ import CradLine from "@/components/crad-line";
 import CommendLine from "@/components/commend-line";
 import MainLayout from "@/components/layouts/mainLayout";
 
+
 const Main = () => {
   const array = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
   return (

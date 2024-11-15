@@ -1,34 +1,36 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
-import { Badge, Input } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { InputGroup } from "@/components/ui/input-group";
-import WebSocketService from "@/services/WebSocket";
-import { Toaster, toaster } from "@/components/ui/toaster";
+
+import { toaster, Toaster } from "@/components/ui/toaster";
+import { useWSStore } from "@/Store/WsStore";
 
 const CreateDirectory = () => {
-  const [message, setMessage] = useState<string>("");
-  const socketService = new WebSocketService("ws://localhost:8080");
 
-  useEffect(() => {
-    socketService.connect(
-      () => {
+  const [message, setMessage] = useState("");
+  const { service, sendMessage } = useWSStore();
+
+  useEffect(()=>{
+    console.log(17);
+    service.connect(
+      ()=>{
         toaster.create({ description: "Connected socket", duration: 3000, type: "success" });
-      },
-      () => toaster.create({ description: "Closed connection ", duration: 3000, type: "info" }),
-      () => toaster.create({ description: `Error connection`, duration: 3000, type: "error" }),
-    );
+      }
 
+    )
+    return ()=>{
 
+    }
+  },[service])
 
-    return () => {
-      console.log(5);
-      socketService.closeConnection();
-      toaster.create({ description: "OK", duration: 3000, type: "warning" });
-    };
-  }, [socketService]);
+  const handleSend = () => {
+    sendMessage(message);
+    setMessage("");
+  };
 
   return (
     <div>
@@ -52,7 +54,8 @@ const CreateDirectory = () => {
         >
           <Input
             onChange={(e) => {
-            socketService.sendMessage(e.target.value);
+              console.log(1);
+              setMessage(e.target.value);
             }}
             ps="4.75em" pe="0" placeholder="directory location" variant="subtle" />
         </InputGroup>
@@ -61,6 +64,7 @@ const CreateDirectory = () => {
         </Field>
 
         <Button
+          onClick={handleSend}
           className="mx-auto border-2 rounded-md border-neutral-200 hover:border-green-500 hover:bg-green-100 w-[280px]">Create</Button>
       </div>
       <Toaster />
@@ -69,3 +73,5 @@ const CreateDirectory = () => {
 };
 
 export default CreateDirectory;
+
+
