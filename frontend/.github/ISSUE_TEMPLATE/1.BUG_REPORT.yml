@@ -1,0 +1,78 @@
+name: Bug report 🐛
+description: Report a bug or an issue with the project.
+labels: [ "bug" ]
+assignees: [ ]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for opening an issue! 😄
+
+        Before diving in, please take a quick look at existing issues — your question might already have been answered! 🔍✨
+
+        We’re a team of passionate volunteers, so by providing clear and detailed info, you’re helping us help you faster. Your contribution is greatly appreciated! ❤️
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      description: "Provide a short, descriptive title for the bug."
+      placeholder: "e.g., Unexpected error when saving changes"
+  - type: textarea
+    id: describe_bug
+    attributes:
+      label: Description
+      description: "Provide detailed information about the bug. If you have screenshots or videos, drag and drop them here. You can also upload your code to a service like CodeSandbox and include the link for reference."
+      placeholder: "A clear and concise description of the bug."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+      label: Steps to Reproduce
+      description: "List each step clearly and in order."
+      placeholder: "1. Go to '...'\n2. Click on '...'\n3. See error"
+  - type: textarea
+    id: expected_result
+    attributes:
+      label: Expected Result
+      description: "Explain what you expected to happen.  
+      Describe the result you expected instead of the actual outcome."
+      placeholder: "The system should..."
+  - type: textarea
+    id: actual_result
+    attributes:
+      label: Actual Result
+      description: "Explain what happened instead of the expected result."
+      placeholder: "The system actually..."
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      description: "Specify the browser and its version where the bug occurs, e.g., Chrome 95, Firefox 92, Safari 15."
+      placeholder: "Enter browser"
+  - type: dropdown
+    id: language
+    attributes:
+      label: Programing Language
+      options:
+        - JavaScript
+        - TypeScript
+    validations:
+      required: true
+  - type: input
+    id: framework
+    attributes:
+      label: Framework
+      description: "Specify the framework where the bug occurs, e.g., React, Angular, Vue."
+      placeholder: "Enter framework"
+    validations:
+      required: true
+  - type: input
+    id: frameworkVersion
+    attributes:
+      label: Framework version
+      description: " e.g. ,Next.js 14, @ 2.1.45"
+      placeholder: "Enter version"
+    validations:
+      required: true
