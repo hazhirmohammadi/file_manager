@@ -1,35 +1,31 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { InputGroup } from "@/components/ui/input-group";
 
-import { toaster, Toaster } from "@/components/ui/toaster";
 import { useWSStore } from "@/Store/WsStore";
+import useDirectoryStore from "@/Store/DirectoryStore";
+import { toaster } from "@/components/ui/toaster";
 
 const CreateDirectory = () => {
-
   const [message, setMessage] = useState("");
-  const { service, sendMessage } = useWSStore();
-
-  useEffect(()=>{
-    console.log(17);
-    service.connect(
-      ()=>{
-        toaster.create({ description: "Connected socket", duration: 3000, type: "success" });
-      }
-
-    )
-    return ()=>{
-
-    }
-  },[service])
+  const { sendMessage, service } = useWSStore();
+  const { color, setColor } = useDirectoryStore();
 
   const handleSend = () => {
     sendMessage(message);
     setMessage("");
+    const reconnect = service.reconnect();
+
+    if (reconnect.status === 1) {
+      setColor("success");
+    }
+    if (reconnect.status === 3) {
+      setColor("error");
+    }
   };
 
   return (
@@ -54,7 +50,7 @@ const CreateDirectory = () => {
         >
           <Input
             onChange={(e) => {
-              console.log(1);
+
               setMessage(e.target.value);
             }}
             ps="4.75em" pe="0" placeholder="directory location" variant="subtle" />
@@ -67,7 +63,6 @@ const CreateDirectory = () => {
           onClick={handleSend}
           className="mx-auto border-2 rounded-md border-neutral-200 hover:border-green-500 hover:bg-green-100 w-[280px]">Create</Button>
       </div>
-      <Toaster />
     </div>
   );
 };

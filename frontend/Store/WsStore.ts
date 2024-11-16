@@ -5,6 +5,7 @@ type WebSocketStore = {
   service: WebSocketService;
   sendMessage: (message: string) => void;
   closeConnection?: () => void;
+  reconnect: () => unknown;
 };
 
 export const useWSStore = create<WebSocketStore>((set) => {
@@ -18,5 +19,6 @@ export const useWSStore = create<WebSocketStore>((set) => {
     service,
     sendMessage: (message) => service.sendMessage(message),
     closeConnection: () => service.closeConnection(),
+    reconnect: () => service.reconnect(),
   };
 });

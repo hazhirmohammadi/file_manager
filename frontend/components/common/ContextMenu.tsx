@@ -12,7 +12,7 @@ import React from "react";
 import { IoMenu } from "react-icons/io5";
 import { MdContentCopy, MdDelete, MdEditDocument, MdOutlineContentCut } from "react-icons/md";
 import { HiInformationCircle } from "react-icons/hi";
-import { Toaster, toaster } from "@/components/ui/toaster";
+import {  toaster } from "@/components/ui/toaster";
 import Directory from "@/services/Directory";
 
 interface item {
@@ -160,7 +160,6 @@ const ContextMenu: React.FC<Interface> = ({ onClick, item }) => {
           </PopoverBody>
         </PopoverContent>
       </PopoverRoot>
-      <Toaster />
     </>
   );
 };

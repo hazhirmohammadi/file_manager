@@ -1,72 +1,59 @@
-import { toaster } from "@/components/ui/toaster";
+import WebSocketService from "@/services/WebSocket";
 
 class Directory {
+  private ws;
+
   constructor(public name?: string, public location?: string, public id?: number) {
     this.name = name;
     this.location = location;
     this.id = id;
+    this.ws = new WebSocketService("ws://localhost:8080");
+    this.ws.connect()
   }
 
-  public Cut(type?: string) {
+  public Cut(type?: string, toaster?: () => void) {
     try {
-      toaster.create({
-        description: `Cut ${type === "dir" ? "directory" : type === "file" ? "file" : ""}`,
-        type: "success",
-      });
+
+      this.ws.sendMessage(`send from service ${type}`)
+      if (toaster) {
+
+        toaster();
+      }
     } catch (err) {
-      toaster.create({
-        title: "Error",
-        description: ` Cut filed : `,
-        type: "error",
-      });
+
       return err;
     }
   }
 
-  public Copy(type?: string) {
+  public Copy(type?: string, toaster?: () => void) {
     try {
-      toaster.create({
-        description: `Copy ${type === "dir" ? "directory" : type === "file" ? "file" : ""}`,
-        type: "success",
-      });
+      if (toaster) {
+        toaster();
+      }
     } catch (err) {
-      toaster.create({
-        title: "Error",
-        description: ` Copy filed :`,
-        type: "error",
-      });
+
       return err;
     }
   }
 
-  public Rename(type?: string) {
+  public Rename(type?: string, toaster?: () => void) {
     try {
-      toaster.create({
-        description: `Copy ${type === "dir" ? "directory" : type === "file" ? "file" : ""}`,
-        type: "success",
-      });
+      if (toaster) {
+        toaster();
+      }
     } catch (err) {
-      toaster.create({
-        title: "Error",
-        description: ` Cut filed :  `,
-        type: "error",
-      });
+
       return err;
     }
   }
 
-  public Delete(type?: string) {
+  public Delete(type?: string, toaster?: () => void) {
     try {
-      toaster.create({
-        description: `Copy ${type === "dir" ? "directory" : type === "file" ? "file" : ""}`,
-        type: "success",
-      });
+      if (toaster) {
+        toaster();
+      }
     } catch (err) {
-      toaster.create({
-        title: "Error",
-        description: ` Cut filed :  `,
-        type: "error",
-      });
+
       return err;
     }
   }

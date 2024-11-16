@@ -1,20 +1,62 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Breadcrumb from "@/components/layouts/Breadcrumb";
 import CradLine from "@/components/crad-line";
 import CommendLine from "@/components/commend-line";
 import MainLayout from "@/components/layouts/mainLayout";
+import { useWSStore } from "@/Store/WsStore";
+import useDirectoryStore from "@/Store/DirectoryStore";
+import { Toaster, toaster } from "@/components/ui/toaster";
 
 
 const Main = () => {
-  const array = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  const { setColor,color } = useDirectoryStore();
+  const { service } = useWSStore();
+
+  useEffect(() => {
+    service.connect(
+      () => {
+        toaster.create({ description: "Connected socket", duration: 3000, type: "success" });
+        setColor("success");
+      },
+      () => {
+        toaster.create({ description: "disconnected 😀", duration: 3000, type: "info" });
+        setColor("error");
+      },
+      () => {
+        service.reconnect();
+        console.log("ERROR disconnected");
+      },
+      () => {
+        const reconnectStatus = service.reconnect();
+        if (reconnectStatus.status === 0) {
+          reconnect();
+          setColor("success");
+        } else if (reconnectStatus?.status === 1) {
+          setColor("success");
+        } else if (reconnectStatus?.status === 3) {
+          setColor("error");
+        }
+      },
+    );
+    return () => {
+      service.closeConnection();
+    };
+  }, [service]);
+
+
+  function reconnect() {
+    toaster.create({ description: "disconnected", duration: 3000, type: "loading" });
+  }
+
+
   return (
     <>
       <MainLayout>
         <div>
           {/*<WebSocketClient/>*/}
           <div className="  p-2">
-            <Breadcrumb path={array} />
+            <Breadcrumb path={["1"]} />
           </div>
           <div className="w-full grid grid-cols-2 gap-2 h-[500px] p-2">
             <div>
@@ -31,7 +73,9 @@ const Main = () => {
             </div>
           </div>
         </div>
+
       </MainLayout>
+      <Toaster />
     </>
   );
 };
