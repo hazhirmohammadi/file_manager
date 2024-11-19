@@ -10,7 +10,7 @@ import { Toaster, toaster } from "@/components/ui/toaster";
 
 
 const Main = () => {
-  const { setColor,color } = useDirectoryStore();
+  const { setColor, color } = useDirectoryStore();
   const { service } = useWSStore();
 
   useEffect(() => {
@@ -38,6 +38,9 @@ const Main = () => {
           setColor("error");
         }
       },
+      (event)=>{
+        console.log(event);
+      }
     );
     return () => {
       service.closeConnection();

@@ -15,18 +15,18 @@ import { HiInformationCircle } from "react-icons/hi";
 import {  toaster } from "@/components/ui/toaster";
 import Directory from "@/services/Directory";
 
-interface item {
-  id?: number;
-  name?: string;
-  date?: string;
-  location?: string;
+
+type FileInfo = {
+  name: string;
+  type: "file" | "directory";
   size?: number;
-  type?: "dir" | "file" | string;
-}
+  lastModified?: string;
+  fullPath: string;
+};
 
 interface Interface {
   onClick?: (isOpen: boolean) => boolean | void;
-  item?: item;
+  item?: FileInfo;
 }
 
 const ContextMenu: React.FC<Interface> = ({ onClick, item }) => {
@@ -67,7 +67,11 @@ const ContextMenu: React.FC<Interface> = ({ onClick, item }) => {
               <Button
                 onClick={() => {
                   console.log(item?.type);
-                  directory.Cut(item?.type);
+                  directory.Cut(item?.type,() => {
+                    console.log(9);
+                  },
+                    item?.fullPath
+                  );
                 }}
                 variant="outline"
                 size="xs"
@@ -137,8 +141,8 @@ const ContextMenu: React.FC<Interface> = ({ onClick, item }) => {
                     <li> Name:{item?.name}</li>
                     <li>Type:{item?.type}</li>
                     <li>Size:{item?.size}</li>
-                    <li>Location:{item?.location}</li>
-                    <li> Data modify:{item?.date}</li>
+                    <li>Location:{item?.fullPath}</li>
+                    <li> Data modify:{item?.lastModified}</li>
                   </ul>
                   <Button
                     onClick={() => {
@@ -146,8 +150,8 @@ const ContextMenu: React.FC<Interface> = ({ onClick, item }) => {
                         name: item?.name,
                         type: item?.type,
                         size: item?.size,
-                        location: item?.location,
-                        date: item?.date,
+                        location: item?.fullPath,
+                        date: item?.lastModified,
                       });
                     }}
                     className="w-fit border mt-1 rounded-md px-1 cursor-pointer hover:text-blue-500">

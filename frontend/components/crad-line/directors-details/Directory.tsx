@@ -1,39 +1,69 @@
 "use client";
-import React from "react";
-import { Table, Theme } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { FormatByte, Table, Theme } from "@chakra-ui/react";
+
+import { useWSStore } from "@/Store/WsStore";
 import { GoFileDirectoryFill } from "react-icons/go";
-import ContextMenu from "@/components/common/ContextMenu";
-import { Checkbox } from "@/components/ui/checkbox";
 import { FaRegFileLines } from "react-icons/fa6";
-import { toaster } from "@/components/ui/toaster";
+import ContextMenu from "@/components/common/ContextMenu";
+
+type FileInfo = {
+  name: string;
+  type: "file" | "directory";
+  size?: number;
+  lastModified?: string;
+  fullPath: string;
+};
 
 
-
-
-const items = [
-  { id: 12362, name: "Laptop", date: "Electronics", size: 999.99, location: "Laptop", type: "dir" },
-  { id: 2236346, name: "Coffee Maker", date: "Home Appliances", size: 49.99, location: "Coffee", type: "file" },
-  { id: 423462336237, name: "Smartphone", date: "Electronics", size: 799.99, location: "Headphones", type: "dir" },
-  { id: 5236, name: "Headphones", date: "Accessories", size: 199.99, location: "Laptop", type: "dir" },
-  { id: 11234623, name: "Laptop", date: "Electronics", size: 999.99, location: "", type: "file" },
-  { id: 22342623, name: "Coffee Maker", date: "Home Appliances", size: 49.99, location: "", type: "dir" },
-  { id: 33236, name: "Desk Chair Desk Chair", date: "Furniture", size: 150.0, location: "", type: "file" },
-  { id: 442345, name: "Smartphone", date: "Electronics", size: 799.99, location: "", type: "dir" },
-  { id: 5577523, name: "Headphones", date: "Accessories", size: 199.99, location: "", type: "file" },
-  { id: 2222345, name: "Coffee Maker", date: "Home Appliances", size: 49.99, location: "", type: "dir" },
-  { id: 3332345, name: "Desk Chair", date: "Furniture", size: 150.0, location: "", type: "dir" },
-  { id: 44442222, name: "Smartphone", date: "Electronics", size: 799.99, location: "", type: "dir" },
-  { id: 5555236342275, name: "Headphones", date: "Accessories", size: 199.99, location: "", type: "dir" },
-];
 const Directory = () => {
+  const [message, setMessage] = useState<FileInfo[]>([]);
+  const { service } = useWSStore();
+  useEffect(() => {
+    service.connect(
+      () => {
+      },
+      () => {
+      },
+      () => {
+      },
+      () => {
+      },
+      (event) => {
+        try {
+          const parsedData = JSON.parse(event);
+
+          setMessage(parsedData.reverse());
+
+        } catch (error) {
+          console.error("Error parsing data: ", error);
+        }
+      },
+    );
+    return () => {
+      service.closeConnection();
+    };
+  }, [service]);
+
+  function formatDate(date: string): string {
+    const parsedDate = new Date(date);
+    const formattedDate = parsedDate.toLocaleString('en-GB', { timeZoneName: 'short' })
+      .split(' ')
+      .slice(0, -1)
+      .join(' ');
+    return formattedDate;
+  }
 
 
+const x = (date:string) => {
+  const inputDate: string | undefined = date
+  if (inputDate) {
+    return  formatDate(inputDate);
 
-  // const [selection, setSelection] = useState<string[]>([]);
-  //
-  // const hasSelection = selection.length > 0;
-  // const indeterminate = hasSelection && selection.length < items.length;
-
+  } else {
+    console.error("Date is undefined");
+  }
+}
 
   return (
     <div className="flex flex-col overflow-y-auto  max-h-[500px]">
@@ -43,46 +73,31 @@ const Directory = () => {
             <Table.Row>
               <Table.ColumnHeader>Name</Table.ColumnHeader>
               <Table.ColumnHeader>Date</Table.ColumnHeader>
-              <Table.ColumnHeader textAlign=""></Table.ColumnHeader>
               <Table.ColumnHeader textAlign="">Size</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign=""></Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {items.map((item) => (
+            {message.map((item, index) => (
               <Table.Row
-                key={item.id}
+                key={index}
                 onClick={() => {
 
                 }}
                 className={`hover:bg-neutral-100 cursor-pointer hover:text-blue-500  `}
-                // data-selected={selection.includes(item.name + item.id) ? "" : undefined}
               >
-                {/*<Table.Cell>*/}
-                {/*  <Checkbox*/}
-                {/*    colorPalette="blue"*/}
-                {/*    className="border"*/}
-                {/*    top="1"*/}
-                {/*    aria-label="Select row"*/}
-                {/*    checked={selection.includes(item.name + item.id)}*/}
-                {/*    onCheckedChange={(changes) => {*/}
-                {/*      setSelection((prev) =>*/}
-                {/*        changes.checked*/}
-                {/*          ? [...prev, item.name + item.id]*/}
-                {/*          : selection.filter((name) => name !== item.name + item.id),*/}
-                {/*      );*/}
-                {/*    }}*/}
-                {/*  />*/}
-                {/*</Table.Cell>*/}
+
                 <Table.Cell className="flex flex-row gap-2 mt-2">
-                  {item.type == "dir" ? (
+                  {item.type == "directory" ? (
                     <GoFileDirectoryFill />
                   ) : (
                     <FaRegFileLines />
                   )}
                   <p>{item.name}</p>
                 </Table.Cell>
-                <Table.Cell>{item.date}</Table.Cell>
-                <Table.Cell textAlign="end">{item.size}</Table.Cell>
+                <Table.Cell><p className="text-[10px]">{ x(item.lastModified)}</p></Table.Cell>
+                <Table.Cell className="text-xs">{item.size !== undefined ? (<FormatByte value={item.size} />) : (
+                  <p>{item.size}</p>)}</Table.Cell>
                 <Table.Cell textAlign="end"><ContextMenu item={item} /></Table.Cell>
               </Table.Row>
             ))}

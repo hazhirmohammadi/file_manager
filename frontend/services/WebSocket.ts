@@ -13,6 +13,7 @@ class WebSocketService {
     onClose?: () => void,
     onError?: (error: Event) => void,
     reconnect?: () => void,
+    onmessage?: (event:Event) => void,
   ): void {
     this.ws = new WebSocket(this.url);
 
@@ -34,6 +35,10 @@ class WebSocketService {
     this.ws.onerror = () => {
       if (reconnect) reconnect();
     };
+
+    this.ws.onmessage=(event)=>{
+      if (onmessage) onmessage(event.data)
+    }
 
   }
 

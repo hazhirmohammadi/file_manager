@@ -8,13 +8,18 @@ class Directory {
     this.location = location;
     this.id = id;
     this.ws = new WebSocketService("ws://localhost:8080");
-    this.ws.connect()
+    this.ws.connect();
   }
 
-  public Cut(type?: string, toaster?: () => void) {
+  public Cut(type?: string, toaster?: () => void, location?: string) {
     try {
-
-      this.ws.sendMessage(`send from service ${type}`)
+      const data = {
+        action_type: "cut",
+        type: type,
+        location: location,
+      };
+      console.log(data);
+      this.ws.sendMessage(JSON.stringify(data));
       if (toaster) {
 
         toaster();
@@ -25,8 +30,14 @@ class Directory {
     }
   }
 
-  public Copy(type?: string, toaster?: () => void) {
+  public Copy(type?: string, toaster?: () => void,location?: string) {
     try {
+      const data = {
+        action_type: "copy",
+        type: type,
+        location: location,
+      };
+      this.ws.sendMessage(JSON.stringify(data));
       if (toaster) {
         toaster();
       }
@@ -36,8 +47,15 @@ class Directory {
     }
   }
 
-  public Rename(type?: string, toaster?: () => void) {
+  public Rename(type?: string, toaster?: () => void,location?: string) {
+
     try {
+      const data = {
+        action_type: "rename",
+        type: type,
+        location: location,
+      };
+      this.ws.sendMessage(JSON.stringify(data));
       if (toaster) {
         toaster();
       }
@@ -47,8 +65,14 @@ class Directory {
     }
   }
 
-  public Delete(type?: string, toaster?: () => void) {
+  public Delete(type?: string, toaster?: () => void,location?: string) {
     try {
+      const data = {
+        action_type: "delete",
+        type: type,
+        location: location,
+      };
+      this.ws.sendMessage(JSON.stringify(data));
       if (toaster) {
         toaster();
       }
