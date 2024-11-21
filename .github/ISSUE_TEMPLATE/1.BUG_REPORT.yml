@@ -12,12 +12,6 @@ body:
         Before diving in, please take a quick look at existing issues — your question might already have been answered! 🔍✨
 
         We’re a team of passionate volunteers, so by providing clear and detailed info, you’re helping us help you faster. Your contribution is greatly appreciated! ❤️
-  - type: input
-    id: title
-    attributes:
-      label: Title
-      description: "Provide a short, descriptive title for the bug."
-      placeholder: "e.g., Unexpected error when saving changes"
   - type: textarea
     id: describe_bug
     attributes:
